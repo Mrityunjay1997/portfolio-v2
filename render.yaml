@@ -1,4 +1,11 @@
 services:
+  # ── Redis ──────────────────────────────────────────────────────────────────
+  - type: redis
+    name: mk-ai-redis
+    region: oregon
+    plan: free
+    ipAllowList: []
+
   # ── Backend (FastAPI) ──────────────────────────────────────────────────────
   - type: web
     name: mk-ai-backend
@@ -12,9 +19,9 @@ services:
       - key: APP_ENV
         value: production
       - key: FRONTEND_ORIGIN
-        sync: false          # set this in Render dashboard to your frontend URL
+        sync: false
       - key: JWT_SECRET
-        generateValue: true  # Render auto-generates a secure random value
+        generateValue: true
       - key: DATABASE_URL
         fromDatabase:
           name: mk-ai-postgres
@@ -25,7 +32,7 @@ services:
           type: redis
           property: connectionString
       - key: OPENAI_API_KEY
-        sync: false          # paste your key in the dashboard (optional)
+        sync: false
       - key: CONTACT_TO_EMAIL
         value: krmrityunjay13@gmail.com
       - key: CHROMA_PERSIST_DIRECTORY
@@ -40,7 +47,7 @@ services:
     rootDir: frontend
     dockerfilePath: ./Dockerfile
     envVars:
-      - key: BACKEND_URL
+      - key: BACKEND_HOST
         fromService:
           name: mk-ai-backend
           type: web
@@ -52,7 +59,3 @@ databases:
     plan: free
     databaseName: portfolio
     user: portfolio
-
-  - name: mk-ai-redis
-    region: oregon
-    plan: free
