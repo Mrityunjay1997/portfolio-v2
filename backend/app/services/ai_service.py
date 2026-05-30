@@ -71,7 +71,7 @@ class PortfolioAIService:
         if "hire" in query or "recommend" in query:
             return (
                 "Hiring recommendation: Mrityunjay is a strong fit for senior Python backend, full stack, and AI engineering roles. "
-                "He combines FastAPI/Django architecture, Angular delivery, PostgreSQL design, Docker/AWS deployment, and measurable production impact."
+                "He combines FastAPI/Django architecture, AI and chatbot workflows, API integrations, Angular delivery, PostgreSQL design, Docker/AWS deployment, and measurable production impact."
             )
         if "project" in query:
             return "Project portfolio includes " + ", ".join(context.sources) + ". Each emphasizes API design, database modeling, cloud deployment, and business impact."
@@ -89,4 +89,3 @@ class PortfolioAIService:
 
 
 portfolio_ai = PortfolioAIService()
-

@@ -140,14 +140,24 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     { category: 'AI', name: 'OpenAI', years: '2+ years', proficiency: 90, projects: 'Assistants, RAG, summarizers', tone: 'cyan' },
     { category: 'AI', name: 'LangChain', years: '2+ years', proficiency: 86, projects: 'Agents and retrieval flows', tone: 'violet' },
     { category: 'AI', name: 'Vector DB', years: '2+ years', proficiency: 82, projects: 'Pinecone, Chroma', tone: 'mint' },
+    { category: 'AI', name: 'AI Engineering', years: '2+ years', proficiency: 88, projects: 'LLM workflows and automation', tone: 'sky' },
+    { category: 'AI', name: 'Chatbots', years: '2+ years', proficiency: 90, projects: 'Support bots and portfolio assistants', tone: 'amber' },
+    { category: 'Backend', name: 'API Integrations', years: '4+ years', proficiency: 92, projects: 'Third-party services and webhooks', tone: 'cyan' },
     { category: 'DevOps', name: 'Docker', years: '4+ years', proficiency: 90, projects: 'Production deployments', tone: 'sky' },
     { category: 'DevOps', name: 'Kubernetes', years: '2+ years', proficiency: 76, projects: 'Scalable deployments', tone: 'rose' },
     { category: 'DevOps', name: 'GitHub Actions', years: '3+ years', proficiency: 86, projects: 'CI/CD pipelines', tone: 'amber' }
   ];
   readonly experience: ExperienceItem[] = [
     {
+      company: 'Insight Global',
+      period: 'Dec 2025 - Present',
+      role: 'Backend Python Developer',
+      highlights: ['Built Python backend services', 'Integrated third-party APIs', 'Developed AI and chatbot workflows', 'Designed scalable REST APIs', 'Improved backend reliability', 'Collaborated on production delivery'],
+      tone: 'mint'
+    },
+    {
       company: 'AdGlobal360',
-      period: 'May 2024 - Present',
+      period: 'May 2024 - Nov 2025',
       role: 'Senior Python Full Stack Developer',
       highlights: ['Developed 10+ applications', 'Served 500K+ users', 'Built high-throughput APIs', 'Created data pipelines', 'Shipped Docker deployments', 'Optimized response times by 40%'],
       tone: 'cyan'
@@ -596,7 +606,7 @@ vector_store.upsert(vectors, metadata=[chunk.metadata for chunk in chunks])`
       return 'Architecture style: FastAPI or Django services, PostgreSQL as the source of truth, Redis for cache and queues, Celery for background work, WebSockets for realtime flows, Docker for repeatable deployments, and AWS EC2/S3/CloudFront for production delivery. AI systems use RAG with embeddings, vector search, guardrails, and streaming responses.';
     }
     if (query.includes('skill') || query.includes('tech')) {
-      return 'Core stack: Python, Django, FastAPI, Flask, Angular, TypeScript, RxJS, PostgreSQL, Redis, Docker, AWS, OpenAI, LangChain, vector databases, REST APIs, WebSockets, CI/CD, and system design.';
+      return 'Core stack: Python, Django, FastAPI, Flask, Angular, TypeScript, RxJS, PostgreSQL, Redis, Docker, AWS, OpenAI, LangChain, AI engineering, chatbot development, API integrations, vector databases, REST APIs, WebSockets, CI/CD, and system design.';
     }
     if (query.includes('resume') || query.includes('summary')) {
       return 'Resume summary: Mrityunjay Kumar is a Senior Python Full Stack Developer in India with 4+ years of experience building APIs, data pipelines, AI systems, dashboards, cloud deployments, and enterprise applications.';

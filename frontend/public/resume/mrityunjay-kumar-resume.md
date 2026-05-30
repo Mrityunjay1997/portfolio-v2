@@ -13,5 +13,4 @@ Senior Python full stack developer with 4+ years of experience building producti
 
 ## Core Skills
 
-Python, Django, FastAPI, Flask, Angular, TypeScript, PostgreSQL, Redis, Docker, AWS, OpenAI, LangChain, RAG, WebSockets, CI/CD.
-
+Python, Django, FastAPI, Flask, Angular, TypeScript, PostgreSQL, Redis, Docker, AWS, OpenAI, LangChain, RAG, AI Engineering, Chatbots, API Integrations, WebSockets, CI/CD.

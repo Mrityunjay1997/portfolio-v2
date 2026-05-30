@@ -20,6 +20,9 @@ RESUME = {
         "OpenAI",
         "LangChain",
         "RAG",
+        "AI Engineering",
+        "Chatbots",
+        "API Integrations",
         "WebSockets",
         "CI/CD"
     ],
@@ -65,4 +68,3 @@ BLOG_POSTS = [
     {"title": "AI Engineering Beyond Prompting", "tag": "AI", "read_time": "9 min", "summary": "RAG evaluation, tool calls, memory, streaming, and safety rails."},
     {"title": "System Design for Product Teams", "tag": "Architecture", "read_time": "10 min", "summary": "Tradeoffs for event systems, queues, caches, APIs, and deployment patterns."}
 ]
-
