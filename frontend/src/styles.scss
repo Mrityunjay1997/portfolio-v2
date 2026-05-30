@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: #050816;
+  --panel: #0a0f1e;
+  --panel-2: #101624;
+  --line: rgba(148, 163, 184, 0.24);
+  --text: #f8fafc;
+  --muted: #a7b3c7;
+  --cyan: #00f5ff;
+  --sky: #0ea5e9;
+  --violet: #7c3aed;
+  --mint: #34d399;
+  --amber: #f59e0b;
+  --rose: #fb7185;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--text);
+  background:
+    linear-gradient(180deg, rgba(5, 8, 22, 0.98), rgba(10, 15, 30, 0.98)),
+    radial-gradient(circle at 20% 0%, rgba(0, 245, 255, 0.16), transparent 26%),
+    radial-gradient(circle at 86% 10%, rgba(245, 158, 11, 0.08), transparent 24%);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(0, 245, 255, 0.28);
+  color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

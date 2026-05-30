@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="MK AI Command Center">
+  <rect width="512" height="512" rx="64" fill="#050816"/>
+  <path d="M80 360V152h62l114 144 114-144h62v208h-62V250L279 360h-46L142 250v110z" fill="#00F5FF"/>
+  <path d="M52 52h408v408H52z" fill="none" stroke="#34D399" stroke-width="16"/>
+  <path d="M92 96h72M348 416h72M96 420v-72M416 164V92" stroke="#F59E0B" stroke-width="14" stroke-linecap="round"/>
+</svg>

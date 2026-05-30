@@ -1,0 +1,433 @@
+<div class="app-shell">
+  <div class="pointer-glow" [style.transform]="pointerTransform"></div>
+  <div class="grain-layer"></div>
+
+  <header class="topbar" [class.nav-open]="mobileNavOpen">
+    <a class="brand" href="#hero" aria-label="Mrityunjay Kumar home">
+      <span class="brand-mark">MK</span>
+      <span class="brand-text">AI Command</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary navigation">
+      @for (item of navItems; track item) {
+        <button type="button" (click)="scrollTo(item.toLowerCase())">{{ item }}</button>
+      }
+    </nav>
+
+    <div class="topbar-actions">
+      <a class="icon-button" href="https://linkedin.com/in/mrityunjay2000" target="_blank" rel="noreferrer" title="LinkedIn" aria-label="Open LinkedIn profile">
+        <i-lucide name="linkedin" [size]="18"></i-lucide>
+      </a>
+      <a class="icon-button" href="https://github.com/mrityunjay2000" target="_blank" rel="noreferrer" title="GitHub" aria-label="Open GitHub profile">
+        <i-lucide name="github" [size]="18"></i-lucide>
+      </a>
+      <button class="icon-button menu-button" type="button" (click)="mobileNavOpen = !mobileNavOpen" aria-label="Toggle navigation" title="Menu">
+        <i-lucide [name]="mobileNavOpen ? 'x' : 'menu'" [size]="20"></i-lucide>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero-section">
+      <canvas #heroCanvas class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-grid"></div>
+      <div class="scan-line"></div>
+
+      <div class="hero-content">
+        <div class="hero-copy" @fadeUp>
+          <p class="eyebrow">
+            <i-lucide name="sparkles" [size]="16"></i-lucide>
+            AI Powered Developer Command Center
+          </p>
+          <h1>MRITYUNJAY KUMAR</h1>
+          <div class="role-rotator" aria-live="polite">{{ roles[currentRoleIndex] }}</div>
+          <p class="hero-summary">
+            Senior Python backend engineer building FastAPI, Django, Angular, AI, data, and cloud systems that move from architecture diagrams to production traffic.
+          </p>
+
+          <div class="hero-actions" aria-label="Hero actions">
+            <button class="primary-action" type="button" (click)="scrollTo('projects')">
+              <i-lucide name="rocket" [size]="18"></i-lucide>
+              View Projects
+            </button>
+            <a class="secondary-action" href="/resume/mrityunjay-kumar-resume.md" download>
+              <i-lucide name="download" [size]="18"></i-lucide>
+              Download Resume
+            </a>
+            <a class="secondary-action" href="mailto:krmrityunjay13@gmail.com?subject=Hiring%20Inquiry%20for%20Mrityunjay%20Kumar">
+              <i-lucide name="mail" [size]="18"></i-lucide>
+              Hire Me
+            </a>
+            <button class="secondary-action" type="button" (click)="scrollTo('assistant')">
+              <i-lucide name="bot" [size]="18"></i-lucide>
+              Chat With AI
+            </button>
+          </div>
+        </div>
+
+        <aside class="terminal-surface" aria-label="Developer terminal preview">
+          <div class="terminal-top">
+            <span></span>
+            <span></span>
+            <span></span>
+            <strong>mk-dev/ops</strong>
+          </div>
+          <div class="terminal-body">
+            <p><span>$</span> whoami</p>
+            <p class="terminal-output">Mrityunjay Kumar</p>
+            <p><span>$</span> specialization</p>
+            <p class="terminal-output">Python Backend | FastAPI | Django | AI Systems | Angular | Cloud Architecture</p>
+            <p><span>$</span> impact --summary</p>
+            <p class="terminal-output success">20+ projects, 500K+ users, 40% faster APIs, 200+ hours/month saved.</p>
+          </div>
+          <form class="command-bar" (ngSubmit)="runCommand()">
+            <label for="commandInput">$</label>
+            <input id="commandInput" name="commandInput" [(ngModel)]="commandInput" type="text" autocomplete="off" placeholder="sudo hire mrityunjay">
+            <button class="icon-button" type="submit" title="Run command" aria-label="Run command">
+              <i-lucide name="play" [size]="16"></i-lucide>
+            </button>
+          </form>
+        </aside>
+      </div>
+
+      <div class="hero-stats" aria-label="Portfolio stats">
+        @for (stat of stats; track stat.label; let index = $index) {
+          <div class="stat-tile">
+            <strong>{{ statDisplays[index] }}{{ stat.suffix }}</strong>
+            <span>{{ stat.label }}</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section id="assistant" class="section assistant-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="bot" [size]="16"></i-lucide> MK-AI Assistant</p>
+        <h2>Ask the portfolio itself.</h2>
+        <p>Experience, projects, architecture decisions, resume summaries, scheduling context, and hiring fit from one focused interface.</p>
+      </div>
+
+      <div class="assistant-layout">
+        <div class="chat-panel">
+          <div class="chat-header">
+            <div>
+              <strong>MK-AI Assistant</strong>
+              <span>Experience, projects, architecture, hiring fit</span>
+            </div>
+            <span class="status-pill">online</span>
+          </div>
+          <div class="messages" aria-live="polite">
+            @for (message of messages; track $index) {
+              <div class="message" [class.user-message]="message.role === 'user'">
+                <span>{{ message.role === 'assistant' ? 'MK-AI' : 'You' }}</span>
+                <p>{{ message.text }}@if (isAssistantTyping && $last) {<b class="typing-cursor">|</b>}</p>
+              </div>
+            }
+          </div>
+          <form class="assistant-input" (ngSubmit)="sendAssistantMessage()">
+            <input name="assistantInput" [(ngModel)]="assistantInput" type="text" placeholder="Ask why a company should hire Mrityunjay" autocomplete="off">
+            <button class="icon-button" type="button" (click)="startVoiceInput()" [class.active]="isListening" title="Voice input" aria-label="Start voice input">
+              <i-lucide name="mic" [size]="18"></i-lucide>
+            </button>
+            <button class="icon-button" type="button" (click)="speakLatestAnswer()" title="Voice output" aria-label="Read latest answer aloud">
+              <i-lucide name="volume-2" [size]="18"></i-lucide>
+            </button>
+            <button class="send-button" type="submit" aria-label="Send message">
+              <i-lucide name="send" [size]="18"></i-lucide>
+            </button>
+          </form>
+        </div>
+
+        <div class="assistant-capabilities">
+          @for (capability of ['Resume Summary', 'Project Walkthroughs', 'Architecture Decisions', 'Hiring Recommendation', 'Meeting Scheduling', 'RAG Portfolio Memory']; track capability) {
+            <button type="button" (click)="sendAssistantMessage(capability)" class="capability-chip">
+              <i-lucide name="chevron-right" [size]="16"></i-lucide>
+              {{ capability }}
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section about-section reveal">
+      <div class="command-panel">
+        <div class="section-heading compact">
+          <p class="eyebrow"><i-lucide name="terminal" [size]="16"></i-lucide> About Me</p>
+          <h2>Futuristic command center, practical engineering core.</h2>
+        </div>
+        <div class="about-terminal">
+          <p><span>$</span> whoami</p>
+          <strong>Mrityunjay Kumar</strong>
+          <p><span>$</span> location</p>
+          <strong>India</strong>
+          <p><span>$</span> role</p>
+          <strong>Senior Python Full Stack Developer</strong>
+          <p><span>$</span> experience</p>
+          <strong>4+ Years</strong>
+          <p><span>$</span> specialization</p>
+          <strong>Python Backend, FastAPI, Django, AI Systems, Angular, Cloud Architecture</strong>
+        </div>
+      </div>
+    </section>
+
+    <section id="achievements" class="section achievements-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="shield-check" [size]="16"></i-lucide> Achievement Layer</p>
+        <h2>Metrics that survive a production review.</h2>
+      </div>
+      <div class="achievement-grid">
+        @for (achievement of achievements; track achievement.label) {
+          <article class="metric-card" [ngClass]="'tone-' + achievement.tone">
+            <strong>{{ achievement.metric }}</strong>
+            <span>{{ achievement.label }}</span>
+            <div class="metric-bars" aria-hidden="true"><i></i><i></i><i></i></div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="skills" class="section skills-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="cpu" [size]="16"></i-lucide> Interactive Skills Galaxy</p>
+        <h2>Backend gravity with full stack orbit.</h2>
+        <p>Python, FastAPI, Django, Angular, databases, AI systems, cloud, and DevOps arranged around production impact.</p>
+      </div>
+      <div class="skills-galaxy" aria-label="Skills galaxy">
+        @for (skill of skillNodes; track skill.name; let index = $index) {
+          <button
+            type="button"
+            class="skill-node"
+            [ngClass]="'tone-' + skill.tone"
+            [style.--p]="skill.proficiency + '%'"
+            [style.--delay]="(-index * 0.18) + 's'"
+          >
+            <span>{{ skill.name }}</span>
+            <small>{{ skill.category }}</small>
+            <em>{{ skill.proficiency }}%</em>
+            <b>{{ skill.years }} | {{ skill.projects }}</b>
+          </button>
+        }
+      </div>
+    </section>
+
+    <section id="experience" class="section experience-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="calendar" [size]="16"></i-lucide> Experience Timeline</p>
+        <h2>From backend delivery to AI-enabled architecture.</h2>
+      </div>
+      <div class="timeline">
+        @for (item of experience; track item.company) {
+          <article class="timeline-item" [ngClass]="'tone-' + item.tone">
+            <div class="timeline-marker"></div>
+            <div>
+              <span>{{ item.period }}</span>
+              <h3>{{ item.company }}</h3>
+              <p>{{ item.role }}</p>
+              <ul>
+                @for (highlight of item.highlights; track highlight) {
+                  <li>{{ highlight }}</li>
+                }
+              </ul>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="projects" class="section projects-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="rocket" [size]="16"></i-lucide> Project Showcase</p>
+        <h2>Twenty-two builds across AI, backend, SaaS, realtime, data, and enterprise systems.</h2>
+      </div>
+
+      <div class="segmented-control" role="tablist" aria-label="Project categories">
+        @for (category of projectCategories; track category) {
+          <button type="button" role="tab" [class.active]="selectedProjectCategory === category" (click)="selectedProjectCategory = category">
+            {{ category }}
+          </button>
+        }
+      </div>
+
+      <div class="project-grid">
+        @for (projectItem of filteredProjects(); track projectItem.id) {
+          <article class="project-card" [ngClass]="'tone-' + projectItem.tone">
+            <span>{{ projectItem.category }}</span>
+            <h3>{{ projectItem.title }}</h3>
+            <p>{{ projectItem.summary }}</p>
+            <div class="stack-row">
+              @for (tech of projectItem.stack; track tech) {
+                <small>{{ tech }}</small>
+              }
+            </div>
+            <div class="project-actions">
+              <button type="button" (click)="openProject(projectItem)">
+                <i-lucide name="brain-circuit" [size]="17"></i-lucide>
+                AI Explain
+              </button>
+              <a href="https://github.com/mrityunjay2000" target="_blank" rel="noreferrer">
+                <i-lucide name="github" [size]="17"></i-lucide>
+                GitHub
+              </a>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="architecture" class="section architecture-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="cloud" [size]="16"></i-lucide> System Architecture Showcase</p>
+        <h2>Animated blueprints for systems that scale.</h2>
+      </div>
+      <div class="architecture-grid">
+        @for (architecture of architectures; track architecture.title) {
+          <article class="architecture-card" [ngClass]="'tone-' + architecture.tone">
+            <div class="architecture-title">
+              <i-lucide [name]="architecture.icon" [size]="22"></i-lucide>
+              <h3>{{ architecture.title }}</h3>
+            </div>
+            <div class="node-map">
+              @for (node of architecture.nodes; track node) {
+                <span>{{ node }}</span>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="code" class="section code-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="code-2" [size]="16"></i-lucide> Code Visualization</p>
+        <h2>Readable snippets from the stack.</h2>
+      </div>
+      <div class="code-console">
+        <div class="code-tabs" role="tablist" aria-label="Code examples">
+          @for (snippet of snippets; track snippet.label) {
+            <button type="button" [class.active]="selectedSnippet.label === snippet.label" (click)="selectedSnippet = snippet">
+              {{ snippet.label }}
+            </button>
+          }
+        </div>
+        <pre><code>[{{ selectedSnippet.language }}]
+{{ selectedSnippet.code }}</code></pre>
+      </div>
+    </section>
+
+    <section id="career" class="section career-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="message-circle" [size]="16"></i-lucide> AI Career Coach</p>
+        <h2>Hiring signal, synthesized.</h2>
+      </div>
+      <div class="career-panel">
+        <form (ngSubmit)="askCareerCoach()">
+          <input name="careerQuestion" [(ngModel)]="careerQuestion" type="text" autocomplete="off">
+          <button type="submit">
+            <i-lucide name="send" [size]="18"></i-lucide>
+            Ask
+          </button>
+        </form>
+        <p>{{ careerAnswer }}</p>
+      </div>
+    </section>
+
+    <section id="blog" class="section blog-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="brain-circuit" [size]="16"></i-lucide> AI Generated Articles</p>
+        <h2>Engineering notes for backend, AI, and systems design.</h2>
+      </div>
+      <div class="blog-grid">
+        @for (post of blogPosts; track post.title) {
+          <article class="blog-card">
+            <span>{{ post.tag }} | {{ post.readTime }}</span>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.summary }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="testimonials" class="section testimonials-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="sparkles" [size]="16"></i-lucide> Testimonials</p>
+        <h2>What collaboration feels like.</h2>
+      </div>
+      <div class="testimonial-track">
+        @for (testimonial of testimonials; track testimonial.name) {
+          <figure class="testimonial-card" [ngClass]="'tone-' + testimonial.tone">
+            <blockquote>{{ testimonial.quote }}</blockquote>
+            <figcaption>{{ testimonial.name }}</figcaption>
+          </figure>
+        }
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section reveal">
+      <div class="section-heading">
+        <p class="eyebrow"><i-lucide name="mail" [size]="16"></i-lucide> Contact Hub</p>
+        <h2>Build something ambitious with Mrityunjay.</h2>
+      </div>
+      <div class="contact-grid">
+        <a href="tel:+917562028303"><span>Phone</span><strong>+91 7562028303</strong></a>
+        <a href="mailto:krmrityunjay13@gmail.com"><span>Email</span><strong>krmrityunjay13&#64;gmail.com</strong></a>
+        <a href="https://linkedin.com/in/mrityunjay2000" target="_blank" rel="noreferrer"><span>LinkedIn</span><strong>linkedin.com/in/mrityunjay2000</strong></a>
+        <a href="https://wa.me/917562028303" target="_blank" rel="noreferrer"><span>WhatsApp</span><strong>Message directly</strong></a>
+      </div>
+
+      <form class="contact-form" action="mailto:krmrityunjay13@gmail.com" method="post" enctype="text/plain">
+        <input name="name" type="text" placeholder="Name" autocomplete="name" required>
+        <input name="email" type="email" placeholder="Email" autocomplete="email" required>
+        <textarea name="message" rows="4" placeholder="Project, role, or collaboration brief" required></textarea>
+        <button type="submit">
+          <i-lucide name="send" [size]="18"></i-lucide>
+          Send Message
+        </button>
+      </form>
+    </section>
+  </main>
+
+  @if (hiringReportVisible) {
+    <aside class="hiring-report" aria-live="polite">
+      <button class="icon-button" type="button" (click)="hiringReportVisible = false" aria-label="Close hiring report">
+        <i-lucide name="x" [size]="18"></i-lucide>
+      </button>
+      <span>Hiring Recommendation Report</span>
+      <strong>Strong Yes</strong>
+      <p>Senior backend ownership, full stack delivery, AI systems, cloud deployments, measurable impact, and clear architectural judgment.</p>
+    </aside>
+  }
+
+  @if (selectedProject) {
+    <div class="modal-backdrop" (click)="closeProject()" role="dialog" aria-modal="true" aria-label="Project architecture modal">
+      <article class="project-modal" (click)="$event.stopPropagation()" [ngClass]="'tone-' + selectedProject.tone">
+        <button class="icon-button close-modal" type="button" (click)="closeProject()" aria-label="Close project details">
+          <i-lucide name="x" [size]="18"></i-lucide>
+        </button>
+        <span>{{ selectedProject.category }}</span>
+        <h2>{{ selectedProject.title }}</h2>
+        <p>{{ selectedProject.summary }}</p>
+        <div class="modal-actions">
+          <a href="#projects"><i-lucide name="external-link" [size]="17"></i-lucide> Live Demo</a>
+          <a href="https://github.com/mrityunjay2000" target="_blank" rel="noreferrer"><i-lucide name="github" [size]="17"></i-lucide> GitHub Link</a>
+        </div>
+        <div class="architecture-flow">
+          @for (node of selectedProject.architecture; track node) {
+            <span>{{ node }}</span>
+          }
+        </div>
+        <dl>
+          <dt>Database Design</dt>
+          <dd>{{ selectedProject.database }}</dd>
+          <dt>API Flow</dt>
+          <dd>{{ selectedProject.apiFlow }}</dd>
+          <dt>Scalability Strategy</dt>
+          <dd>{{ selectedProject.scalability }}</dd>
+          <dt>Deployment Architecture</dt>
+          <dd>{{ selectedProject.deployment }}</dd>
+          <dt>AI Explanation</dt>
+          <dd>{{ selectedProject.impact }}. The system is designed as a maintainable production workflow with clear boundaries, observable services, and room for AI-assisted decision support.</dd>
+        </dl>
+      </article>
+    </div>
+  }
+</div>
